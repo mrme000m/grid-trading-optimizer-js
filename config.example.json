@@ -1,0 +1,112 @@
+{
+  "exchange": "KuCoin",
+  "selectedModel": "gemini-2.0-flash",
+  "enableLLM": true,
+  "api": {
+    "exchange": {
+      "apiKey": "${KUCOIN_API_KEY}",
+      "apiSecret": "${KUCOIN_SECRET_KEY}",
+      "passphrase": "${KUCOIN_PASSPHRASE}"
+    },
+    "google": {
+      "projectId": "${GOOGLE_PROJECT_ID}",
+      "location": "global",
+      "credentialsPath": "${GOOGLE_APPLICATION_CREDENTIALS}"
+    }
+  },
+  "portfolio": {
+    "minTotalValueUSDT": 100,
+    "includeOpenOrders": true,
+    "openOrdersCap": 50,
+    "skipCoins": ["USDT", "USDC"]
+  },
+  "analysis": {
+    "atr_period": 14,
+    "bb_period": 20,
+    "bb_stdev": 2.0,
+    "vpvr_bins": 60,
+    "consolidation_max_range_pct": 3.0,
+    "ema_period": 50,
+    "timeframes": {
+      "1d": {"limit": 120, "weight": 0.2},
+      "4h": {"limit": 360, "weight": 0.3},
+      "1h": {"limit": 400, "weight": 0.3},
+      "30m": {"limit": 400, "weight": 0.15},
+      "5m": {"limit": 600, "weight": 0.05}
+    }
+  },
+  "constraints": {
+    "execution_timeframe": "5m",
+    "min_grid_levels": 10,
+    "max_grid_levels": 25,
+    "min_spacing_percent": 0.25,
+    "max_spacing_percent": 2.0,
+    "max_range_width_percent": 12,
+    "capital_mode": "use_quote_balance",
+    "per_coin_quote_budget_percent": 20,
+    "reserve_quote_percent": 30,
+    "max_open_positions": 10,
+    "max_orders_per_coin": 50
+  },
+  "per_coin_constraints": {
+    "BTC": {
+      "max_grid_levels": 30,
+      "per_coin_quote_budget_percent": 30,
+      "min_spacing_percent": 0.5
+    },
+    "ETH": {
+      "max_grid_levels": 25,
+      "per_coin_quote_budget_percent": 25
+    },
+    "XRP": {
+      "min_grid_levels": 8,
+      "max_grid_levels": 20
+    }
+  },
+  "llm": {
+    "temperature": 0.2,
+    "maxTokens": 2000,
+    "topP": 0.9,
+    "topK": 40
+  },
+  "optimization": {
+    "mode": "price_based",
+    "invocationTrigger": "time_interval",
+    "intervalSeconds": 300,
+    "priceChangeThreshold": 2.5,
+    "maxIterations": 5,
+    "enableAutoRebalance": true,
+    "rebalanceThreshold": 5.0
+  },
+  "output": {
+    "dir": "./plans",
+    "write_individual_plans": true,
+    "write_combined_output": true,
+    "format": "json",
+    "compress": false
+  },
+  "notifications": {
+    "enabled": true,
+    "channels": ["console", "telegram"],
+    "telegram": {
+      "botToken": "${TELEGRAM_BOT_TOKEN}",
+      "chatId": "${TELEGRAM_CHAT_ID}"
+    }
+  },
+  "logging": {
+    "level": "info",
+    "file": "./logs/optimizer.log",
+    "maxFileSize": "10mb",
+    "maxFiles": 5
+  },
+  "deployment": {
+    "dryRun": true,
+    "autoExecute": false,
+    "approvalRequired": true,
+    "maxOrdersPerBatch": 50,
+    "rateLimit": {
+      "ordersPerSecond": 10,
+      "requestsPerMinute": 300
+    }
+  }
+}
